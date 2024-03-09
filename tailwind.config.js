@@ -15,6 +15,15 @@ module.exports = {
           "background-hover": "hsl(var(--btn-background-hover))",
         },
       },
+      keyframes: {
+        wiggle: {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.05)' },
+        }
+      },
+      animation:  {
+        wiggle: 'wiggle ',
+      },
     },
   },
   plugins: [],
