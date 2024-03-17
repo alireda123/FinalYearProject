@@ -3,6 +3,7 @@ module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/tw-elements-react/dist/js/**/*.{js,ts,jsx,tsx,mdx}"
   ],
   darkMode: 'class',
   theme: {
@@ -16,15 +17,15 @@ module.exports = {
         },
       },
       keyframes: {
-        wiggle: {
-          '0%, 100%': { transform: 'scale(1)' },
-          '50%': { transform: 'scale(1.05)' },
+        fadein: {
+          '0%': {opacity: '0', transform: 'translate(-50px, 0px)'},
+          '100%': {opacity: '1', transform: 'translate(0px, 0px)'}
         }
       },
       animation:  {
-        wiggle: 'wiggle ',
+        fadein: 'fadein 1s ease-in-out'
       },
     },
   },
-  plugins: [],
+  plugins: [require("tw-elements-react/dist/plugin.cjs")],
 };

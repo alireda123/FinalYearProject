@@ -4,9 +4,9 @@ const nextConfig = {
         remotePatterns: [
           {
             protocol: 'https',
-            hostname: 's3.amazonaws.com',
+            hostname: 'szitjksnkskfwbckrzfc.supabase.co',
             port: '',
-            pathname: '/my-bucket/**',
+            pathname: '/storage/v1/object/public/articleimages/**',
           },
         ],
       },
