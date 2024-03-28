@@ -1,8 +1,13 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+
   :root {
     --background: 200 20% 98%;
     --btn-background: 200 10% 91%;
@@ -18,4 +23,7 @@
       --foreground: 200 20% 96%;
     }
   }
+
+ 
+
 }

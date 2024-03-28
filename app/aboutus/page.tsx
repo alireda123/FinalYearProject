@@ -1,9 +1,23 @@
+'use client'
+
+import {
+  Accordion,
+  AccordionHeader,
+  AccordionBody,
+} from "@material-tailwind/react";
+import {useState} from "react"
 export default function Aboutus() {
+
+  const [open, setOpen] = useState(1);
+ 
+  const handleOpen = (value) => setOpen(open === value ? 0 : value);
+
   return (
-    <div className=" max-w-3xl mt-48 xl:max-w-4xl">
-      <div className="flex flex-col justify-start animate-fadein duration-1000 mb-72">
-        <h1 className="text-5xl font-extrabold mb-4">Who we are</h1>
-        <p>
+    <div className=" max-w-3xl mt-48 xl:max-w-5xl">
+      <div className="flex justify-start gap-5 animate-fadein duration-1000">
+      <div className="flex shadow-2xl shadow-blue-600 items-center flex-col p-3 mb-6">
+        <h1 className="text-5xl font-medium mb-4 ">Who we are</h1>
+        <p className="font-sans text-center leading-7 ">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Porttitor
           rhoncus dolor purus non enim praesent. Vitae et leo duis ut. Euismod
@@ -21,24 +35,12 @@ export default function Aboutus() {
           nascetur. Phasellus vestibulum lorem sed risus. Bibendum est ultricies
           integer quis auctor elit. Enim lobortis scelerisque fermentum dui
           faucibus in ornare quam viverra. A erat nam at lectus urna duis
-          convallis convallis tellus. Risus quis varius quam quisque id diam
-          vel. Est sit amet facilisis magna. Id interdum velit laoreet id donec
-          ultrices tincidunt arcu. Felis imperdiet proin fermentum leo vel orci
-          porta non. Nisi vitae suscipit tellus mauris a. Neque vitae tempus
-          quam pellentesque nec nam aliquam. Est ullamcorper eget nulla facilisi
-          etiam dignissim diam. Cras adipiscing enim eu turpis egestas pretium
-          aenean pharetra magna. Vitae sapien pellentesque habitant morbi. In
-          cursus turpis massa tincidunt. Aliquet eget sit amet tellus cras
-          adipiscing enim eu turpis. Egestas purus viverra accumsan in nisl
-          nisi. Rhoncus dolor purus non enim praesent elementum facilisis. Nulla
-          facilisi cras fermentum odio eu feugiat pretium. Eu scelerisque felis
-          imperdiet proin fermentum leo vel. Nibh tellus molestie nunc non
-          blandit massa enim nec. Sed blandit libero volutpat sed.
+          convallis convallis tellus. 
         </p>
       </div>
-      <div><div className="flex flex-col justify-start animate-fadein duration-1000">
-        <h1 className="text-5xl font-extrabold mb-4">Our mission</h1>
-        <p>
+  <div className="flex  shadow-2xl shadow-blue-600 shadow-black flex-col p-3 mb-6 items-center ">
+        <h1 className="text-5xl font-medium mb-4">Our mission</h1>
+        <p className="font-sans text-center leading-7">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Porttitor
           rhoncus dolor purus non enim praesent. Vitae et leo duis ut. Euismod
@@ -56,21 +58,59 @@ export default function Aboutus() {
           nascetur. Phasellus vestibulum lorem sed risus. Bibendum est ultricies
           integer quis auctor elit. Enim lobortis scelerisque fermentum dui
           faucibus in ornare quam viverra. A erat nam at lectus urna duis
-          convallis convallis tellus. Risus quis varius quam quisque id diam
-          vel. Est sit amet facilisis magna. Id interdum velit laoreet id donec
-          ultrices tincidunt arcu. Felis imperdiet proin fermentum leo vel orci
-          porta non. Nisi vitae suscipit tellus mauris a. Neque vitae tempus
-          quam pellentesque nec nam aliquam. Est ullamcorper eget nulla facilisi
-          etiam dignissim diam. Cras adipiscing enim eu turpis egestas pretium
-          aenean pharetra magna. Vitae sapien pellentesque habitant morbi. In
-          cursus turpis massa tincidunt. Aliquet eget sit amet tellus cras
-          adipiscing enim eu turpis. Egestas purus viverra accumsan in nisl
-          nisi. Rhoncus dolor purus non enim praesent elementum facilisis. Nulla
-          facilisi cras fermentum odio eu feugiat pretium. Eu scelerisque felis
-          imperdiet proin fermentum leo vel. Nibh tellus molestie nunc non
-          blandit massa enim nec. Sed blandit libero volutpat sed.
+          convallis convallis tellus. 
         </p>
-      </div></div>
-    </div>
+        </div>
+        </div>
+        <div>
+        <h1 className="text-5xl text-center font-extrabold mt-24 mb-4">FAQs</h1>
+      <Accordion open={open === 1} className="mb-2 rounded-lg border border-blue-gray-100 px-4">
+        <AccordionHeader
+          onClick={() => handleOpen(1)}
+          className={`border-b-0 transition-colors ${
+            open === 1 ? "text-blue-500 hover:!text-blue-700" : ""
+          }`}
+        >
+          How is this funded?
+        </AccordionHeader>
+        <AccordionBody className="pt-0 text-base font-sans">
+          We&apos;re not always in the position that we want to be at. We&apos;re constantly
+          growing. We&apos;re constantly making mistakes. We&apos;re constantly trying to express
+          ourselves and actualize our dreams.
+        </AccordionBody>
+      </Accordion>
+      <Accordion open={open === 2} className="mb-2 rounded-lg border border-blue-gray-100 px-4">
+        <AccordionHeader
+          onClick={() => handleOpen(2)}
+          className={`border-b-0 transition-colors ${
+            open === 2 ? "text-blue-500 hover:!text-blue-700" : ""
+          }`}
+        >
+          Are you objective and unbiased?
+        </AccordionHeader>
+        <AccordionBody className="pt-0 text-base font-sans">
+          We&apos;re not always in the position that we want to be at. We&apos;re constantly
+          growing. We&apos;re constantly making mistakes. We&apos;re constantly trying to express
+          ourselves and actualize our dreams.
+        </AccordionBody>
+      </Accordion>
+      <Accordion open={open === 3} className="rounded-lg border border-blue-gray-100 px-4">
+        <AccordionHeader
+          onClick={() => handleOpen(3)}
+          className={`border-b-0 transition-colors ${
+            open === 3 ? "text-blue-500 hover:!text-blue-700" : ""
+          }`}
+        >
+          How are you transparent with the readers
+        </AccordionHeader>
+        <AccordionBody className="pt-0 text-base font-sans">
+          We&apos;re not always in the position that we want to be at. We&apos;re constantly
+          growing. We&apos;re constantly making mistakes. We&apos;re constantly trying to express
+          ourselves and actualize our dreams.
+        </AccordionBody>
+      </Accordion>
+      </div>
+      </div>
+  
   );
 }

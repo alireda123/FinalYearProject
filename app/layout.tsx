@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/layoutcomponents/Navbar";
 import Footer from "@/components/layoutcomponents/Footer";
 import "tw-elements-react/dist/css/tw-elements-react.min.css";
+import { createClient } from "@/utils/supabase/server";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -20,6 +21,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
 
+  const supabase = createClient()
+  const returnSession = async () => await supabase.auth.getSession(); 
+   
   return (
     <html lang="en" className={GeistSans.className}>
       <body className="bg-background text-foreground">

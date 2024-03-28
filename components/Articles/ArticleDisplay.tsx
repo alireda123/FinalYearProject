@@ -1,15 +1,65 @@
-import Image from 'next/image'
+import Image from "next/image";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Typography,
+  Avatar,
+  Tooltip,
+} from "@material-tailwind/react";
 
-export default function ArticleDisplay ({post})  {
-    const type = post.type
-    return(
-        <div className={`flex rounded-xl flex-col border border-b-2 min-h-96 ${type === "foreign" ? 'shadow-[0_0_1px_#fff,inset_0_0_2px_#fff,0_0_5px_#08f,0_0_15px_#08f,0_0_30px_#08f]' : 'shadow-[0_0_1px_#ff0000,inset_0_0_2px_#ff0000,0_0_5px_#c00,0_0_15px_#c00,0_0_30px_#c00]'}`}>
-            <Image className='w-full relative  rounded-t-xl' src={post.image} alt='' width={200} height={250}></Image>
-            <div className='p-4'>
-            <p>{post.date}</p>
-            <h3 className='font-bold '>{post.title}</h3>
-            <p>Written by {post.author}</p>
-            </div>
-        </div>
-    )
+export default function ArticleDisplay({ post }) {
+  const image =
+    "https://szitjksnkskfwbckrzfc.supabase.co/storage/v1/object/public/articleimages/";
+  //function convertostringdata generated using generative AI(copilot)
+  function convertToStringData(date: Date) {
+    const x = new Date(date)
+    const day = x.getDate();
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const month = monthNames[x.getMonth()];
+    const year = x.getFullYear();
+
+    const formattedDate = `${day} ${month} ${year}`;
+    return formattedDate; 
+  }
+  return (
+    <Card className="max-w-[24rem] overflow-hidden">
+      <CardHeader
+        floated={false}
+        shadow={false}
+        color="transparent"
+        className="m-0 rounded-none"
+      >
+        <img src={image + post.image} alt="ui/ux review check" />
+      </CardHeader>
+      <CardBody>
+        <Typography variant="h4" color="blue-gray">
+          {post.title}
+        </Typography>
+        <Typography variant="lead" color="gray" className="mt-3 font-sans">
+          {post.summary}
+        </Typography>
+      </CardBody>
+      <CardFooter className="flex items-center justify-between">
+        <div className="flex items-center -space-x-3">{post.author_name}</div>
+        <Typography className="font-normal">
+          {convertToStringData(post.published_at)}
+        </Typography>
+      </CardFooter>
+    </Card>
+  );
 }

@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+const withMT = require("@material-tailwind/react/utils/withMT");
+module.exports = withMT({
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -18,8 +19,8 @@ module.exports = {
       },
       keyframes: {
         fadein: {
-          '0%': {opacity: '0', transform: 'translate(-50px, 0px)'},
-          '100%': {opacity: '1', transform: 'translate(0px, 0px)'}
+          '0%': {opacity: '0'},
+          '100%': {opacity: '1'}
         }
       },
       animation:  {
@@ -28,4 +29,4 @@ module.exports = {
     },
   },
   plugins: [require("tw-elements-react/dist/plugin.cjs")],
-};
+});

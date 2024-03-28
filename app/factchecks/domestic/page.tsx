@@ -1,31 +1,91 @@
+"use client";
 import ArticleDisplay from "@/components/Articles/ArticleDisplay";
+import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  Typography,
+  Button,
+} from "@material-tailwind/react";
 
+export default function Domestic() {
+  const image =
+    "https://szitjksnkskfwbckrzfc.supabase.co/storage/v1/object/public/articleimages/";
+  const [article, setArticle] = useState(null);
+  const supabase = createClient();
+  useEffect(() => {
+    async function fetchArticle() {
+      const { data, error } = await supabase
+        .from("articles")
+        .select()
+        .eq("type", "domestic");
+      setArticle(data);
+    }
+    async function fetchBuckers() {
+      const { data, error } = await supabase.storage.getBucket(
+        "articlesimages"
+      );
+      data && console.log(data);
+    }
+    fetchArticle();
+    fetchBuckers();
+  }, []);
 
-export default function Domestic(){
-
-    const posts = [{
-        image: "https://szitjksnkskfwbckrzfc.supabase.co/storage/v1/object/public/articleimages/Screenshot%202024-03-01%20235433.png?t=2024-03-11T13%3A54%3A17.543Z",
-        date: "4th March 2019",
-        title: "An experiment",
-        author: "Ali Reda",
-        key: "1"
-    },
-    {
-        image: "https://szitjksnkskfwbckrzfc.supabase.co/storage/v1/object/public/articleimages/OIF.jpg?t=2024-03-11T14%3A48%3A48.335Z",
-        date: "5th March 2019",
-        title: "Why do we see so muhc injustice in the world",
-        author: "Ali Reda",
-        key: "2"
-    }]
-
-    return(
-        <div className="flex [&>*]:my-6 flex-col ">
-        <h1 className="font-extrabold text-5xl">Domestic Fact Checks</h1>
-        {posts.map(item => (
-            <Link key={item.key} href={`/factchecks/domestic/${item.key}`}><ArticleDisplay post={item}/></Link>
-        ))}
-        
-        </div>
-    )
+  return (
+    <div className="flex [&>*]:my-6 flex-col mt-24 ">
+      <h1 className="font-extrabold text-5xl">Domestic Fact Checks</h1>
+      {article &&
+        article.map((item) => {
+    //    document.getElementById(item.id).innerHTML = article[0].summary;
+          return (
+            <Link key={item.key} href={`/factchecks/${item.type}/${item.id}`}>
+              <Card className="w-full max-w-[48rem] flex-row">
+                <CardHeader
+                  shadow={false}
+                  floated={false}
+                  className="m-0 w-2/5 shrink-0 rounded-r-none"
+                >
+                  <img
+                    src={image + item.image}
+                    alt="card-image"
+                    className="h-full w-full object-cover"
+                  />
+                </CardHeader>
+                <CardBody>
+                  
+                  <Typography variant="h4" color="blue-gray" className="mb-2">
+                    {item.title}
+                  </Typography>
+                  <Typography color="gray" className="mb-8 font-normal">
+                    <div  >{item.summary}</div>
+                  </Typography>
+                  <a href="#" className="inline-block">
+                    <Button variant="text" className="flex items-center gap-2">
+                      Go to Article
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                        className="h-4 w-4"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                        />
+                      </svg>
+                    </Button>
+                  </a>
+                </CardBody>
+              </Card>
+            </Link>
+          );
+        })}
+    </div>
+  );
 }
