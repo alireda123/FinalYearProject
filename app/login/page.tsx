@@ -42,7 +42,8 @@ export default function Login() {
       setErrormessage(error.message)
       return;
     }
-    router.push("/");
+    window.location.assign("/"); 
+    
   };
 
   const handleSignOut = async () => {
@@ -115,7 +116,7 @@ export default function Login() {
             </div>
             {errormessage &&
             <Alert
-              icon={<CorrectIcon />}
+              icon={<CrossIcon />}
               className="rounded-none border-l-4 border-[rgba(201,80,46,0.94)] bg-[hsla(0,63%,48%,1)] font-medium text-white"
             >
               {errormessage}

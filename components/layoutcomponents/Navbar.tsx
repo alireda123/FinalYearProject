@@ -6,15 +6,11 @@ import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import {useEffect, useState} from "react"
 import { createClient } from "@/utils/supabase/client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { DocSearch } from "@docsearch/react";
 import { Input } from "@material-tailwind/react";
-
-const APP_ID = "your-app-id";
-const INDEX_NAME = "your-index-name";
-const API_KEY = "your-algolia-api-key";
- //algolia search grabbed from https://www.material-tailwind.com/docs/react/plugins/algolia-search
-
+ //search grabbed from https://tailwindcomponents.com/component/search-input-full-rounded
+//search logic some adapted from https://github.com/shadeemerhi/nextjs-fullstack-search/blob/main/app/SearchInput.tsx
 export default function Navbar() {
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -23,6 +19,11 @@ export default function Navbar() {
   // Adapted Menu section from https://tailwindui.com/components/application-ui/elements/dropdowns
   const [user, setUser] = useState(null);
   
+
+  const search = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState<string | null>(
+    search ? search.get("q") : ""
+  );
   const supabase = createClient();
   useEffect(() => {
     fetchUser()
@@ -39,6 +40,9 @@ export default function Navbar() {
     await supabase.auth.signOut()
     router.refresh()
   }
+  async function searchForItem(){
+   router.push(`/factchecks/searchpageresults/${searchQuery}`);
+  }
 
  
   return (
@@ -53,28 +57,34 @@ export default function Navbar() {
           <Link href="/aboutus">Who We Are</Link>
           <Link href="https://patreon.com/MisinformationPlatform?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=creatorshare_creator&utm_content=join_link">Donate</Link>
         </div>
-        <div className="group mr-4 relative">
-      <Input
-        type="email"
-        placeholder="Search"
-        className="focus:!border-t-gray-900 group-hover:border-2 group-hover:!border-gray-900"
-        labelProps={{
-          className: "hidden",
-        }}
-        readOnly
-      />
-      <div className="absolute top-[calc(50%-1px)] right-2.5 -translate-y-2/4">
-        <kbd className="rounded border border-blue-gray-100 bg-white px-1 pt-px pb-0 text-xs font-medium text-gray-900 shadow shadow-black/5">
-          <span className="mr-0.5 inline-block translate-y-[1.5px] text-base">
-            ⌘
-          </span>
-          K
-        </kbd>
-      </div>
-      <div className="absolute inset-0 w-full opacity-0">
-        <DocSearch indexName={INDEX_NAME} apiKey={API_KEY} appId={APP_ID} />
-      </div>
-    </div>
+        <div className="relative text-gray-600">
+  <input
+    type="search"
+    name="serch"
+    placeholder="Search"
+    onChange={(e) => {setSearchQuery(e.target.value)}}
+    className="bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none"
+  />
+  <button onClick={(e) => {searchForItem(e.target.value)}} className="absolute right-0 top-0 mt-3 mr-4">
+    <svg
+      className="h-4 w-4 fill-current"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      version="1.1"
+      id="Capa_1"
+      x="0px"
+      y="0px"
+      viewBox="0 0 56.966 56.966"
+      style={{ enableBackground: "new 0 0 56.966 56.966" }}
+      xmlSpace="preserve"
+      width="512px"
+      height="512px"
+    >
+      <path d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+    </svg>
+  </button>
+</div>
+
         {user ? (
         <div>
           <Menu as="div" className="relative inline-block text-left">

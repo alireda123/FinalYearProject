@@ -4,11 +4,29 @@
 import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/client'
+import { Alert } from '@material-tailwind/react';
+function CrossIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className="h-6 w-6"
+    >
+      <path
+        fillRule="evenodd"
+        d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+}
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
+  const [errormessage, setErrorMessage] = useState('')
   const router = useRouter();
   const supabase = createClient();
 
@@ -18,7 +36,13 @@ export default function Login() {
       email,
       password,
     })
-    router.push("/signup/adduserdetails");
+    if(error){
+      setErrorMessage(error.message)
+      return;
+    } else{
+      router.push("/signup/adduserdetails");
+    }
+  
   }
 
 //change smtp for production
@@ -52,7 +76,14 @@ export default function Login() {
                 />
               </div>
             </div>
-
+            {errormessage &&
+            <Alert
+              icon={<CrossIcon />}
+              className="rounded-none border-l-4 border-[rgba(201,80,46,0.94)] bg-[hsla(0,63%,48%,1)] font-medium text-white"
+            >
+              {errormessage}
+            </Alert>
+}
             
 
             <div>

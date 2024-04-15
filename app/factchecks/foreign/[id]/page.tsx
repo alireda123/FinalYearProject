@@ -12,7 +12,7 @@ export default function Page({ params }: { params: { id: string } }) {
   const [comments, setComments] = useState(null);
   const [commentbox, setCommentbox] = useState("");
   const [user, setUser] = useState(null);
-
+  console.log(user)
   const router = useRouter();
   const supabase = createClient();
 
@@ -61,9 +61,25 @@ export default function Page({ params }: { params: { id: string } }) {
         commenter_name: user[0].username,
         pfp: user[0].pfp
       });
-      router.refresh();
+      const { data } = await supabase
+        .from("comments")
+        .select()
+        .eq("article_id", params.id);
+      setComments(data);
+      
     }
 
+  }
+  async function deleteComment(id:number){
+    const { error } = await supabase
+    .from('comments')
+    .delete()
+    .eq('comment_id', id)
+    const { data } = await supabase
+        .from("comments")
+        .select()
+        .eq("article_id", params.id);
+      setComments(data);
   }
 
 
@@ -86,7 +102,7 @@ export default function Page({ params }: { params: { id: string } }) {
             commentbox={commentbox}
             setCommentbox={setCommentbox}
           />
-          <Comments comments={comments} user={user}/>
+          <Comments comments={comments} deleteComment={deleteComment} user={user}/>
         </div>
       ) : (
         <div>Page not found</div>

@@ -1,9 +1,36 @@
-import {Avatar} from '@material-tailwind/react'
-export default function Comments({ comments, user }) {
-  const image = "https://szitjksnkskfwbckrzfc.supabase.co/storage/v1/object/public/userprofilepictures/"
-  console.log(comments)
-  function convertToStringData(date: Date) {
-    const x = new Date(date)
+import {useState} from "react"
+import {
+  Button,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+  Avatar,
+  IconButton,
+  Textarea
+} from "@material-tailwind/react";
+import { createClient } from "@/utils/supabase/client";
+export default function Comments({ comments, user, deleteComment }) {
+  const image =
+    "https://szitjksnkskfwbckrzfc.supabase.co/storage/v1/object/public/userprofilepictures/";
+ 
+ const [edit, setEdit] = useState("");
+ //grabbed modal from https://www.material-tailwind.com/docs/react/dialog
+ const [open, setOpen] = useState(false);
+ const handleOpen = () => setOpen(!open); 
+ const supabase = createClient()
+ async function updateComment(id){
+  console.log(edit)
+  if(edit.length > 0){
+  const { error } = await supabase
+  .from('comments')
+  .update({ content: edit })
+  .eq('comment_id', id)
+  }  
+ }
+ function convertToStringData(date: Date) {
+    
+    const x = new Date(date);
     const day = x.getDate();
     const monthNames = [
       "January",
@@ -23,12 +50,10 @@ export default function Comments({ comments, user }) {
     const year = x.getFullYear();
 
     const formattedDate = `${day} ${month} ${year}`;
-    return formattedDate; 
+    return formattedDate;
   }
   return (
-    
     <section className=" mt-8 flex flex-col justify-start min-h-screen antialiased  min-w-screen">
-      
       <h1 className="text-4xl font-extrabold">Comments</h1>
 
       <div className="container px-0  sm:px-5">
@@ -121,18 +146,22 @@ export default function Comments({ comments, user }) {
             </div>
           </div>
         </div> */}
+        <div></div>
         {comments &&
           comments.map((item) => {
             return (
               
-              <div key={item.comment_id} className="flex-col w-full py-4  mt-3 bg-white border-b-2 border-r-2 border-gray-200 sm:px-4 sm:py-4 md:px-4 sm:rounded-lg sm:shadow-sm md:w-2/3">
-            
-                <div className="flex flex-row">
-                   <img
+              <div
+                key={item.comment_id}
+                className="flex-col w-full py-4  mt-3 bg-white border-b-2 border-r-2 border-gray-200 sm:px-4 sm:py-4 md:px-4 sm:rounded-lg sm:shadow-sm md:w-2/3"
+              >
+                
+                <div className="flex w-full justify-between flex-row">
+                  <img
                     className="w-12 h-12 border-2 border-gray-300 rounded-full"
                     alt="Anonymous's avatar"
-                    src={image+item.pfp}
-                  /> 
+                    src={image + item.pfp}
+                  />
                   <div className="flex-col mt-1">
                     <div className="flex items-center flex-1 px-4 font-bold leading-tight">
                       {item.commenter_name}
@@ -143,9 +172,90 @@ export default function Comments({ comments, user }) {
                     <div className="flex-1 px-2 ml-2 text-sm font-medium leading-loose text-gray-600">
                       {item.content}
                     </div>
-                    {/* <div>{item.commenter_id === user.id ? (<p>hello</p>): (<p>not user</p>)}</div> */}
-                    
+                    <div></div>
                   </div>
+                  {user && user[0].id ===
+                  "04ce407b-236f-45e3-abc1-3105a1cda7a2" ? (
+                    <button onClick={() => {deleteComment(item.comment_id)}}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="30"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          fill="#FF0000"
+                          d="M6 19c0 1.1 .9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm12-11.5V12h-2v-4.5h-1.5V12h-2V7H17.5v4.5h1.5z"
+                        />
+                      </svg>
+                    </button>
+                  ) : user && item.commenter_id === user[0].id ? (
+                    <div className="flex">
+                      <button  onClick={() => {deleteComment(item.comment_id)}}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="30"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="#FF0000"
+                            d="M6 19c0 1.1 .9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm12-11.5V12h-2v-4.5h-1.5V12h-2V7H17.5v4.5h1.5z"
+                          />
+                        </svg>
+                      </button>
+                      <Button onClick={handleOpen} variant="gradient">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="#000000"
+                            d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75 1.83-1.83zM3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM5.93 19.07l6.07-6.07-1.41-1.41L4.52 17.66l1.41 1.41z"
+                          />
+                        </svg>
+                      </Button>
+                      <Dialog size="md" closeOnOutsideClick={false}  animate={{
+          mount: { scale: 1, y: 0 },
+          unmount: { scale: 0.9, y: -100 },
+        }} open={open} handler={handleOpen}>
+        <DialogHeader>Edit your comment</DialogHeader>
+        <DialogBody>
+        <div className="">
+          <Textarea
+            className="border-gray-300 border-2 p-2 rounded-md"
+            onChange={(e) => {
+              setEdit(e.target.value);
+            }}
+          //  value={item.content}
+            placeholder={item.content}
+            rows={8}
+          />
+         
+      
+        </div>
+        </DialogBody>
+        <DialogFooter>
+          <Button
+            variant="text"
+            color="red"
+            onClick={() => {handleOpen(); setEdit("") }}
+            className="mr-1"
+          >
+            <span>Cancel</span>
+          </Button>
+          <Button onClick={(e) => {e.preventDefault(); updateComment(item.comment_id)}} variant="gradient" color="green" onClick={handleOpen}>
+            <span>Confirm</span>
+          </Button>
+        </DialogFooter>
+      </Dialog>
+    
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
                 </div>
               </div>
             );
