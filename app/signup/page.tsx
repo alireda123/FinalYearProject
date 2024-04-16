@@ -36,6 +36,7 @@ export default function Login() {
       email,
       password,
     })
+    console.log(error)
     if(error){
       setErrorMessage(error.message)
       return;
@@ -45,7 +46,6 @@ export default function Login() {
   
   }
 
-//change smtp for production
   return (
     <div className='flex flex-col justify-center [&>*]:p-3'>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -91,11 +91,7 @@ export default function Login() {
                 <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                   Password
                 </label>
-                <div className="text-sm">
-                  <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                    Forgot password?
-                  </a>
-                </div>
+               
               </div>
               <div className="mt-2">
                 <input

@@ -8,7 +8,7 @@ export default function CommentBox({
   return (
     <div>
       <form>
-        <div className="">
+        <div className="mt-16">
           <Textarea
             className="border-gray-300 border-2 p-2 rounded-md"
             onChange={(e) => {

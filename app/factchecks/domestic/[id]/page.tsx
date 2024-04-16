@@ -12,7 +12,7 @@ export default function Page({ params }: { params: { id: string } }) {
   const [comments, setComments] = useState(null);
   const [commentbox, setCommentbox] = useState("");
   const [user, setUser] = useState(null);
-
+  const [openModals, setOpenModals] = useState({}); 
   const router = useRouter();
   const supabase = createClient();
 
@@ -30,6 +30,11 @@ export default function Page({ params }: { params: { id: string } }) {
         .select()
         .eq("article_id", params.id);
       setComments(data);
+      const initialOpenStates = data.reduce((acc, comment) => {
+        acc[comment.comment_id] = false;
+        return acc;
+      }, {});
+      setOpenModals(initialOpenStates);
     }
     async function fetchUser() {
       const session = await supabase.auth.getSession();
@@ -43,6 +48,7 @@ export default function Page({ params }: { params: { id: string } }) {
     fetchComments();
     fetchUser();
   }, [params.id]);
+  
 
   async function submitComment(e) {
     e.preventDefault();
@@ -61,9 +67,24 @@ export default function Page({ params }: { params: { id: string } }) {
         commenter_name: user[0].username,
         pfp: user[0].pfp
       });
-      router.refresh();
+      const { data } = await supabase
+        .from("comments")
+        .select()
+        .eq("article_id", params.id);
+      setComments(data);
     }
 
+  }
+  async function deleteComment(id:number){
+    const { error } = await supabase
+    .from('comments')
+    .delete()
+    .eq('comment_id', id)
+    const { data } = await supabase
+        .from("comments")
+        .select()
+        .eq("article_id", params.id);
+      setComments(data);
   }
 
   return (
@@ -85,7 +106,8 @@ export default function Page({ params }: { params: { id: string } }) {
             commentbox={commentbox}
             setCommentbox={setCommentbox}
           />
-          <Comments comments={comments} />
+      <Comments comments={comments} openModals={openModals} setOpenModals={setOpenModals} setComments={setComments} deleteComment={deleteComment} user={user}/>
+
         </div>
       ) : (
         <div>Page not found</div>

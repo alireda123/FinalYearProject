@@ -5,22 +5,58 @@ import Test from "@/components/Test";
 import Image from "next/image";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
+import { Alert } from "@material-tailwind/react";
+
+function CrossIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className="h-6 w-6"
+    >
+      <path
+        fillRule="evenodd"
+        d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+}
+
 
 export default  function App() {
   //grabbed from https://www.tiny.cloud/docs/tinymce/latest/react-pm-bundle/
   const supabase = createClient();
   const editorRef = useRef(null);
+  const router = useRouter();
+  const [errormessage, setErrorMessage] = useState('')
   const [imageObject, setImageObject] = useState();
+  const [errordetected, setErrorDetected] = useState(false);  
+  const [errormessages, setErrorMessages] = useState([])
   const log = async () => {
     if (editorRef.current !== null) {
       const final = { ...sendData, content: editorRef.current.getContent() };
-
-      console.log(final);
+      Object.keys(sendData).forEach(key => {
+        if (sendData[key] === "") {
+            setErrorMessages([...errormessages, `Error: ${key} is empty`]);
+        }
+    });
       const { error } = await supabase
         .from('articles')
         .insert(final)
         console.log(error)
-    uploadImageToSupabaseBucket();
+    if(error){
+      if(error.message === `new row for relation "articles" violates check constraint "articles_author_name_check"`){
+        setErrorMessage("Author name must be longer than 6 characters")
+      } else{
+        setErrorMessage(error.message)
+      }
+        return;
+    } else{
+      uploadImageToSupabaseBucket();
+      router.push('/')      
+    }
     }
   };
   useEffect(() => {
@@ -76,6 +112,16 @@ export default  function App() {
   return (
     <div className="flex mt-24 flex-col">
       <h1 className="text-5xl font-extrabold">Submit Article:</h1>
+      {errormessage && errormessages.map(item => {
+            <Alert
+            icon={<CrossIcon />}
+            className="rounded-none border-l-4 border-[rgba(201,80,46,0.94)] bg-[hsla(0,63%,48%,1)] font-medium text-white"
+            >
+            {item}
+            </Alert>
+                  })
+           
+}
       <div className="flex flex-col mt-8 mb-9  ">
         <label className="text-xl font-bold">Title:</label>
         <input

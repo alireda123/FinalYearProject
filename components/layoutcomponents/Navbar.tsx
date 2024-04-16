@@ -38,7 +38,7 @@ export default function Navbar() {
   }
   async function signOut(){
     await supabase.auth.signOut()
-    router.refresh()
+    router.push("/login")
   }
   async function searchForItem(){
    router.push(`/factchecks/searchpageresults/${searchQuery}`);
@@ -55,6 +55,7 @@ export default function Navbar() {
           <Link href="/factchecks">Fact Checks</Link>
           <Link href="/submitclaim">Submit a claim</Link>
           <Link href="/aboutus">Who We Are</Link>
+          {user && user[0].id === "04ce407b-236f-45e3-abc1-3105a1cda7a2" ? <div className="flex [&>*]:mx-3"><Link href="/protected/viewmisinformation">MC</Link><Link href="/protected/admin">Write Article</Link></div> : <></>}
           <Link href="https://patreon.com/MisinformationPlatform?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=creatorshare_creator&utm_content=join_link">Donate</Link>
         </div>
         <div className="relative text-gray-600">
@@ -114,7 +115,7 @@ export default function Navbar() {
                   <Menu.Item>
                     {({ active }) => (
                       <a
-                        href="#"
+                        href="/protected/settings"
                         className={classNames(
                           active
                             ? "bg-gray-100 text-gray-900"
