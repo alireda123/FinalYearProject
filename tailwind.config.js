@@ -9,6 +9,9 @@ module.exports = withMT({
   darkMode: 'class',
   theme: {
     extend: {
+      screens: {
+        'tablet': '500px'
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

@@ -30,18 +30,13 @@ export default  function App() {
   const supabase = createClient();
   const editorRef = useRef(null);
   const router = useRouter();
-  const [errormessage, setErrorMessage] = useState('')
+  const [errormessage, setErrorMessage] = useState<string>('')
   const [imageObject, setImageObject] = useState();
   const [errordetected, setErrorDetected] = useState(false);  
-  const [errormessages, setErrorMessages] = useState([])
+  const [errormessages, setErrorMessages] = useState<string[]>([])
   const log = async () => {
     if (editorRef.current !== null) {
       const final = { ...sendData, content: editorRef.current.getContent() };
-      Object.keys(sendData).forEach(key => {
-        if (sendData[key] === "") {
-            setErrorMessages([...errormessages, `Error: ${key} is empty`]);
-        }
-    });
       const { error } = await supabase
         .from('articles')
         .insert(final)
@@ -93,6 +88,7 @@ export default  function App() {
         ...sendData,
         image: event.target.files[0].name,
       });
+      setImage(URL.createObjectURL(event.target.files[0]))
       setImageObject(event.target.files[0])
       console.log(event.target.files[0].name)
     }
@@ -110,9 +106,9 @@ export default  function App() {
   });
   // div relative w-64 until closing corresponding div was taken from https://v1.tailwindcss.com/components/forms
   return (
-    <div className="flex mt-24 flex-col">
-      <h1 className="text-5xl font-extrabold">Submit Article:</h1>
-      {errormessage && errormessages.map(item => {
+    <div className="flex mt-24 flex-col max-w-[250px] tablet:max-w-sm md:!max-w-none">
+      <h1 className="text-2xl md:!text-4xl  font-extrabold">Submit Article:</h1>
+      {errormessages.length > 0 && errormessages.map(item => {
             <Alert
             icon={<CrossIcon />}
             className="rounded-none border-l-4 border-[rgba(201,80,46,0.94)] bg-[hsla(0,63%,48%,1)] font-medium text-white"
@@ -202,14 +198,13 @@ export default  function App() {
         />
         <div>
         {image && (
-       //   <Image src={image} alt="Profile Picture" width={200} height={200} />
-       <img src={imageObject} alt="Profile Picture" width={200} height={200}></img>
+       <img src={image} alt="Profile Picture" width={200} height={200}></img>
         )}
         </div>
       </div>
       <Test
         onInit={(evt, editor) => (editorRef.current = editor)}
-        initialValue="<p>This is the initial content of the editor.</p>"
+        initialValue="<p></p>"
         init={{
           height: 500,
           menubar: true,
@@ -236,7 +231,7 @@ export default  function App() {
       />
       <div className="mt-4">
         <button
-          className="p-1 text-lg bg-red-500 rounded-md border-white border-2 text-white shadow-xl"
+          className="p-1 text-lg bg-gradient-to-br from-blue-700 to-purple-500 rounded-md border-white border-2 text-white shadow-xl"
           onClick={log}
         >
           Submit Article

@@ -35,14 +35,14 @@ export default function Domestic() {
   }, []);
 
   return (
-    <div className="flex [&>*]:my-6 flex-col mt-24 ">
-      <h1 className="font-extrabold text-5xl">Domestic Fact Checks</h1>
+    <div className="flex [&>*]:my-6 flex-col mt-12 [&>*]:mx-3 md:mt-24 ">
+      <h1 className="domesticpagetitle font-extrabold text-2xl  md:!text-4xl 2xl:!text-5xl ">Domestic Fact Checks</h1>
       {article &&
         article.map((item) => {
     //    document.getElementById(item.id).innerHTML = article[0].summary;
           return (
             <Link key={item.key} href={`/factchecks/${item.type}/${item.id}`}>
-              <Card className="w-full max-w-[48rem] flex-row">
+              <Card className="w-full max-w-[48rem] 2xl:max-w-[56rem] flex-row">
                 <CardHeader
                   shadow={false}
                   floated={false}
@@ -59,8 +59,8 @@ export default function Domestic() {
                   <Typography variant="h4" color="blue-gray" className="mb-2">
                     {item.title}
                   </Typography>
-                  <Typography color="gray" className="mb-8 font-normal">
-                    <div  >{item.summary}</div>
+                  <Typography color="gray" className="mb-8 font-normal text-black">
+               <p className="line-clamp-2 tablet:line-clamp-4 md:!line-clamp-none">{item.summary}</p>
                   </Typography>
                   <a href="#" className="inline-block">
                     <Button variant="text" className="flex items-center gap-2">

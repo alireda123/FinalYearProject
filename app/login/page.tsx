@@ -26,13 +26,13 @@ function CrossIcon() {
 }
 //adapted crossicon function from material tailwind 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errormessage, setErrormessage] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [errormessage, setErrormessage] = useState<string>("");
   const router = useRouter();
   const supabase = createClient();
 
-  const handleSignIn = async (e) => {
+  const handleSignIn = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
@@ -126,7 +126,7 @@ export default function Login() {
             <div>
               <button
                 onClick={handleSignIn}
-                className="flex w-full text-white text-lg max-  justify-center rounded-md bg-gradient-to-br from-blue-700 to-purple-500 px-3 py-1.5  font-semibold leading-6  shadow-sm"
+                className="flex w-full text-white text-lg justify-center rounded-md bg-gradient-to-br from-blue-700 to-purple-500 px-3 py-1.5  font-semibold leading-6  shadow-sm"
               >
                 Sign in
               </button>

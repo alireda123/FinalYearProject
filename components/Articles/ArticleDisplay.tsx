@@ -8,13 +8,26 @@ import {
   Avatar,
   Tooltip,
 } from "@material-tailwind/react";
+import { createClient } from "@/utils/supabase/client";
+import Link from "next/link";
 
-export default function ArticleDisplay({ post }) {
+export default function ArticleDisplay({ post, user }) {
   const image =
     "https://szitjksnkskfwbckrzfc.supabase.co/storage/v1/object/public/articleimages/";
+  const supabase = createClient();
+  async function deleteArticle(id: number) {
+    const { error } = await supabase.from("articles").delete().eq("id", id);
+console.log(id)
+    const { data } = await supabase
+      .from("comments")
+      .delete()
+      .eq("article_id", id);
+    console.log(error);
+  }
+
   //function convertostringdata generated using generative AI(copilot)
   function convertToStringData(date: Date) {
-    const x = new Date(date)
+    const x = new Date(date);
     const day = x.getDate();
     const monthNames = [
       "January",
@@ -34,22 +47,53 @@ export default function ArticleDisplay({ post }) {
     const year = x.getFullYear();
 
     const formattedDate = `${day} ${month} ${year}`;
-    return formattedDate; 
+    return formattedDate;
   }
   return (
-    <Card className="max-w-[24rem] overflow-hidden">
-      <CardHeader
-        floated={false}
-        shadow={false}
-        color="transparent"
-        className="m-0 rounded-none"
-      >
-        <img src={image + post.image} alt="ui/ux review check" />
-      </CardHeader>
+    <Card className="max-w-[24rem]">
+      <Link key={post.id} href={`/factchecks/${post.type}/${post.id}`}>
+        <CardHeader
+          floated={false}
+          shadow={false}
+          color="transparent"
+          className="m-0 rounded-none"
+        >
+          <img src={image + post.image} alt="ui/ux review check" />
+        </CardHeader>
+      </Link>
       <CardBody>
-        <Typography variant="h4" color="blue-gray">
-          {post.title}
-        </Typography>
+        <div className="flex justify-between">
+          <div>
+            <Typography variant="h4" color="blue-gray">
+              {post.title}
+            </Typography>
+          </div>
+          {user &&
+          user.data.session?.user.id ===
+            "04ce407b-236f-45e3-abc1-3105a1cda7a2" ? (
+            <button
+              onClick={() => {
+                deleteArticle(post.id);
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="#000000"
+                height="24px"
+                width="24px"
+                version="1.1"
+                id="Icons"
+                viewBox="0 0 32 32"
+              >
+                <path d="M24,8h-3V7c0-2.8-2.2-5-5-5s-5,2.2-5,5v1H8c-1.7,0-3,1.3-3,3v3c0,0.6,0.4,1,1,1h1v12c0,1.7,1.3,3,3,3h12c1.7,0,3-1.3,3-3V15  h1c0.6,0,1-0.4,1-1v-3C27,9.3,25.7,8,24,8z M13,7c0-1.7,1.3-3,3-3s3,1.3,3,3v1h-6V7z M14,24c0,0.6-0.4,1-1,1s-1-0.4-1-1v-5  c0-0.6,0.4-1,1-1s1,0.4,1,1V24z M20,24c0,0.6-0.4,1-1,1s-1-0.4-1-1v-5c0-0.6,0.4-1,1-1s1,0.4,1,1V24z" />
+              </svg>
+            </button>
+          ) : (
+            <div></div>
+          )}
+
+          <div></div>
+        </div>
         <Typography variant="lead" color="gray" className="mt-3 font-sans">
           {post.summary}
         </Typography>

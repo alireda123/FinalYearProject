@@ -75,7 +75,6 @@ export default function Page({ params }: { params: { id: string } }) {
         .select()
         .eq("article_id", params.id);
       setComments(data);
-      
     }
 
   }
@@ -95,7 +94,7 @@ export default function Page({ params }: { params: { id: string } }) {
   return (
     <div>
       {article !== null && comments !== null && comments.length === 0 ? (
-        <div>
+        <div className="max-w-72 tablet:max-w-[400px] md:!max-w-none">
           <ArticlePage article={article} />
           <CommentBox
             submitComment={submitComment}
@@ -104,7 +103,7 @@ export default function Page({ params }: { params: { id: string } }) {
           />
         </div>
       ) : article !== null && comments !== null && comments.length > 0 ? (
-        <div>
+        <div className="max-w-72 tablet:max-w-[400px] md:!max-w-none">
           <ArticlePage article={article} />
           <CommentBox
             submitComment={submitComment}

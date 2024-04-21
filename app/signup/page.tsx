@@ -1,6 +1,5 @@
 'use client'
 //grabbed login UI from https://tailwindui.com/components/application-ui/forms/sign-in-forms
-//grabbed login logic from https://supabase.com/docs/guides/auth/auth-helpers/nextjs
 import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/client'
@@ -83,10 +82,7 @@ export default function Login() {
             >
               {errormessage}
             </Alert>
-}
-            
-
-            <div>
+}        <div>
               <div className="flex items-center justify-between">
                 <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                   Password

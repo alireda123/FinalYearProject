@@ -29,7 +29,7 @@ export default function Modal({edit, setEdit, item, openModals, updateComment, o
               onChange={(e) => {
                 setEdit(e.target.value);
               }}
-              //  value={item.content}
+              value={edit}
               placeholder={item.content}
               rows={8}
             />

@@ -10,12 +10,12 @@ export default function Aboutus() {
 
   const [open, setOpen] = useState(1);
  
-  const handleOpen = (value) => setOpen(open === value ? 0 : value);
+  const handleOpen = (value: number) => setOpen(open === value ? 0 : value);
 
   return (
-    <div className=" max-w-3xl mt-48 xl:max-w-5xl">
-      <div className="flex justify-start gap-5 animate-fadein duration-1000">
-      <div className="flex shadow-2xl shadow-blue-600 items-center flex-col p-3 mb-6">
+    <div className=" max-w-3xl mt-12 md:!mt-36 xl:max-w-5xl">
+      <div className="flex justify-start flex-col md:flex-row gap-5 animate-fadein duration-1000">
+      <div className="flex border-2 mx-3 md:mx-0 border-gray-300 rounded-md  md:border-none shadow-2xl shadow-blue-600 items-center flex-col p-3 mb-6">
         <h1 className="text-5xl font-medium mb-4 ">Who we are</h1>
         <p className="font-sans text-center leading-7 ">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -38,7 +38,7 @@ export default function Aboutus() {
           convallis convallis tellus. 
         </p>
       </div>
-  <div className="flex  shadow-2xl shadow-blue-600 shadow-black flex-col p-3 mb-6 items-center ">
+  <div className="flex border-2 mx-3 md:mx-0 border-gray-300 rounded-md  md:border-none shadow-2xl shadow-blue-600  flex-col p-3 mb-6 items-center ">
         <h1 className="text-5xl font-medium mb-4">Our mission</h1>
         <p className="font-sans text-center leading-7">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

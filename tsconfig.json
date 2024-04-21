@@ -6,7 +6,7 @@
     "skipLibCheck": true,
     "strict": true,
     "typeRoots": ["node_modules/@types", "custom_types"],
-    "types": ["formik", /* other types */],
+    "types": ["formik", "jest", "node"],
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -25,6 +25,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/Editor.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/Editor.js", "app/page.test.tsx", "jest.config.ts"],
   "exclude": ["node_modules"]
 }

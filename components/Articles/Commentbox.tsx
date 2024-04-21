@@ -4,7 +4,6 @@ export default function CommentBox({
   commentbox,
   setCommentbox,
 }) {
-  //grabbed from https://larainfo.com/blogs/tailwind-css-comment-box-example
   return (
     <div>
       <form>
@@ -45,18 +44,17 @@ export default function CommentBox({
                 size="sm"
                 color="red"
                 variant="text"
-                className="rounded-md"
+                className="rounded-md p-2 border-2 border-red-400"
               >
                 Cancel
               </Button>
-              <Button
+              <button
                 onClick={submitComment}
-                size="sm"
-                color="white"
-                className="rounded-md"
+                
+                className="rounded-md bg-gradient-to-br from-blue-700 to-purple-500 p-1 text-white"
               >
                 Post Comment
-              </Button>
+              </button>
             </div>
           </div>
         </div>

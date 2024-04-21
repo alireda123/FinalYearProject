@@ -67,8 +67,8 @@ export default function submitclaim() {
     
 
   return (
-    <div className="flex flex-col max-w-2xl xl:max-w-4xl">
-      <h1 className="text-4xl mb-8 font-extrabold my-16">
+    <div className="flex flex-col max-w-[280px] tablet:max-w-sm  md:!max-w-4xl">
+      <h1 className="text-2xl md:!text-4xl mb-8 font-extrabold my-16">
         Claims of misinformation
       </h1>
       {claims && claims.map(item => (
@@ -82,7 +82,7 @@ export default function submitclaim() {
          
           <div className="flex w-full flex-col gap-0.5">
             <div className="flex items-center justify-between">
-              <Typography variant="h5" color="blue-gray">
+              <Typography variant="h5" className="text-sm font-bold md:!text-2xl" color="blue-gray">
                 Email: {item.claim_author_email}
               </Typography>
               
@@ -90,8 +90,8 @@ export default function submitclaim() {
           
           </div>
         </CardHeader>
-        <CardBody className="mb-6 p-0">
-            <p className="font-bold">{item.claim_name}</p>
+        <CardBody className="mb-6  p-0">
+            <p className="font-extrabold">{item.claim_name}</p>
           <Typography>
             {item.claim_content} gdfgsfd
           </Typography>
