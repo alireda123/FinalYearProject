@@ -17,7 +17,6 @@ export default function ArticleDisplay({ post, user }) {
   const supabase = createClient();
   async function deleteArticle(id: number) {
     const { error } = await supabase.from("articles").delete().eq("id", id);
-console.log(id)
     const { data } = await supabase
       .from("comments")
       .delete()
@@ -50,15 +49,15 @@ console.log(id)
     return formattedDate;
   }
   return (
-    <Card className="max-w-[24rem]">
-      <Link key={post.id} href={`/factchecks/${post.type}/${post.id}`}>
+    <Card className="max-w-[24rem] md:max-w-[32rem]">
+      <Link key={post.id} href={`/factchecks/${post.type}/${post.id}`}> 
         <CardHeader
           floated={false}
           shadow={false}
           color="transparent"
-          className="m-0 rounded-none"
+          className="m-0  rounded-none"
         >
-          <img src={image + post.image} alt="ui/ux review check" />
+          <img src={image + post.image} className="h-full w-full object-cover" width={384} height={252} alt="articleImageOnHomePage" />
         </CardHeader>
       </Link>
       <CardBody>
