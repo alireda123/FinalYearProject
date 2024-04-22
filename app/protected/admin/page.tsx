@@ -1,5 +1,4 @@
-// MyRichTextEditor.js
-"use client";
+'use client';
 import React, { useRef, useState, useEffect, ChangeEvent } from "react";
 import Test from "@/components/Test";
 import Image from "next/image";
@@ -106,6 +105,7 @@ export default  function App() {
   });
   // div relative w-64 until closing corresponding div was taken from https://v1.tailwindcss.com/components/forms
   return (
+    
     <div className="flex mt-24 flex-col max-w-[250px] tablet:max-w-sm md:!max-w-none">
       <h1 className="text-2xl md:!text-4xl  font-extrabold">Submit Article:</h1>
       {errormessages.length > 0 && errormessages.map(item => {
@@ -202,11 +202,13 @@ export default  function App() {
         )}
         </div>
       </div>
-      <Test
+      
+      {/* <Test
         onInit={(evt, editor) => (editorRef.current = editor)}
         initialValue="<p></p>"
         init={{
           height: 500,
+          navigator: null,
           menubar: true,
           plugins: [
             "advlist",
@@ -227,8 +229,8 @@ export default  function App() {
             "removeformat | help",
           content_style:
             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-        }}
-      />
+        }} 
+      />  */}
       <div className="mt-4">
         <button
           className="p-1 text-lg bg-gradient-to-br from-blue-700 to-purple-500 rounded-md border-white border-2 text-white shadow-xl"
