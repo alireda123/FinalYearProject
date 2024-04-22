@@ -106,7 +106,7 @@ export default  function App() {
   // div relative w-64 until closing corresponding div was taken from https://v1.tailwindcss.com/components/forms
   return (
     
-    <div className="flex mt-24 flex-col max-w-[250px] tablet:max-w-sm md:!max-w-none">
+    <div className="flex mt-24 flex-col max-w-[250px] md:!min-w-[720px]">
       <h1 className="text-2xl md:!text-4xl  font-extrabold">Submit Article:</h1>
       {errormessages.length > 0 && errormessages.map(item => {
             <Alert

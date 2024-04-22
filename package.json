@@ -1,12 +1,10 @@
 {
-  "private": true,
+  "private": false,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "jest": "react scripts test",
-    "test": "jest",
-    "postinstall": "node ./postinstall.js"
+    "test": "jest"
   },
   "dependencies": {
     "@docsearch/react": "^3.6.0",
