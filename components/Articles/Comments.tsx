@@ -81,10 +81,10 @@ export default function Comments({
   }
   
   return (
-    <section className=" mt-8 flex flex-col justify-start min-h-screen antialiased  min-w-screen">
+    <section className=" mt-8 flex flex-col justify-start  antialiased  ">
       <h1 className="text-4xl font-extrabold">Comments</h1>
 
-      <div className="container px-0  sm:px-5">
+      <div className="container tablet:min-w-full px-0  sm:px-5">
         {comments &&
           comments.map((item) => {
             return (
