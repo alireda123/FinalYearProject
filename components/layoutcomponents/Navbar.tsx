@@ -31,6 +31,7 @@ export default function Navbar() {
   const supabase = createClient();
   useEffect(() => {
     fetchUser()
+    initTWE({ Dropdown });
   })
   async function fetchUser() {
     const session = await supabase.auth.getSession();
@@ -48,7 +49,7 @@ export default function Navbar() {
    router.push(`/factchecks/searchpageresults/${searchQuery}`);
   }
   
-    initTWE({ Dropdown });
+    
 
   
 

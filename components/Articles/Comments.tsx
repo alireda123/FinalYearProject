@@ -79,7 +79,7 @@ export default function Comments({
     const formattedDate = `${day} ${month} ${year} ${hours}:${minutes} ${amOrPm}`; 
     return formattedDate;
   }
-  
+  // comment section adapted from https://devdojo.com/tailwindcss/playground?component=comment-thread
   return (
     <section className=" mt-8 flex flex-col justify-start  antialiased  ">
       <h1 className="text-4xl font-extrabold">Comments</h1>

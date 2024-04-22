@@ -208,7 +208,6 @@ export default  function App() {
         initialValue="<p></p>"
         init={{
           height: 500,
-          navigator: null,
           menubar: true,
           plugins: [
             "advlist",
