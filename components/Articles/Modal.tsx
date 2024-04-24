@@ -29,8 +29,8 @@ export default function Modal({edit, setEdit, item, openModals, updateComment, o
               onChange={(e) => {
                 setEdit(e.target.value);
               }}
-              value={edit}
-              placeholder={item.content}
+              defaultValue={item.content}
+           
               rows={8}
             />
           </div>

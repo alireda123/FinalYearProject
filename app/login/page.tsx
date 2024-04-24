@@ -4,7 +4,7 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/supabase";
 import { Alert } from "@material-tailwind/react";
 import { error } from "console";
 

@@ -10,7 +10,8 @@ module.exports = withMT({
   theme: {
     extend: {
       screens: {
-        'tablet': '500px'
+        'tablet': '500px',
+        'navconfig': '1033px'
       },
       colors: {
         background: "hsl(var(--background))",

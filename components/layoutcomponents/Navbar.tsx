@@ -5,7 +5,7 @@ import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import {useEffect, useState} from "react"
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/supabase";
 import { useRouter, useSearchParams } from "next/navigation";
 import { DocSearch } from "@docsearch/react";
 import { Select, Option } from "@material-tailwind/react";
@@ -55,19 +55,19 @@ export default function Navbar() {
 
  
   return (
-    <nav className="w-full flex justify-center border-b lg:w-full sm:w-96 border-b-foreground/10 h-16">
-      <div className="w-full max-w-6xl xl:!max-w-[1400px]  flex justify-between items-center md:flex-row  md:justify-between md:items-center  p-3 sm:mx-12  ">
+    <nav className="w-full flex justify-center border-b lg:w-full  border-b-foreground/10 h-16">
+      <div className="w-full navconfig:!max-w-[1400px]  flex justify-between items-center navconfig:flex-row    p-3 sm:mx-12  ">
         <Link href="/" className="text-2xl font-extrabold">
           Home
         </Link>
-        <div className="w-full font-sans hidden md:flex justify-center items-center p-3 md:!text-lg [&>*]:mx-3">
+        <div className="w-full font-sans hidden navconfig:!flex justify-center items-center p-3 md:!text-lg [&>*]:mx-3">
           <Link href="/factchecks">Fact Checks</Link>
           <Link href="/submitclaim">Submit a claim</Link>
           <Link href="/aboutus">Who We Are</Link>
           {user && user[0].id === "04ce407b-236f-45e3-abc1-3105a1cda7a2" ? <div className="flex [&>*]:mx-3"><Link href="/protected/viewmisinformation">MC</Link><Link href="/protected/admin">Write Article</Link></div> : <></>}
           <Link href="https://patreon.com/MisinformationPlatform?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=creatorshare_creator&utm_content=join_link">Donate</Link>
         </div>
-        <div className=" md:hidden">
+        <div className=" navconfig:hidden">
         <div className="relative" data-twe-dropdown-ref="">
     <a
       className="flex cursor-pointer items-center px-2 text-black/60 transition duration-200 hover:text-black/80 hover:ease-in-out focus:text-black/80 active:text-black/80 motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80"

@@ -1,6 +1,6 @@
 "use client";
 import Settings from "@/components/Settings";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/supabase";
 import router from "next/router";
 import { useEffect, useState } from "react";
 //grabbed serttings page UI from https://kopi.dev/tailwind/profile-settings-using-tailwind-ui/

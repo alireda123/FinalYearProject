@@ -1,6 +1,6 @@
 'use client'
 import AuthButton from "../components/layoutcomponents/AuthButton";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/supabase";
 import Darkmodetoggle from "@/components/layoutcomponents/Darkmodetoggle";
 import Navbar from "@/components/layoutcomponents/Navbar";
 import ArticleDisplay from "@/components/Articles/ArticleDisplay";

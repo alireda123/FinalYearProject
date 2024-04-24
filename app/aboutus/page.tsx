@@ -62,7 +62,7 @@ export default function Aboutus() {
         </p>
         </div>
         </div>
-        <div>
+        <div id="FAQs" >
         <h1 className="text-5xl text-center font-extrabold mt-24 mb-4">FAQs</h1>
       <Accordion open={open === 1} className="mb-2 rounded-lg border border-blue-gray-100 px-4">
         <AccordionHeader

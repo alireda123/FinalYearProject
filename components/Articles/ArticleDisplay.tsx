@@ -8,7 +8,7 @@ import {
   Avatar,
   Tooltip,
 } from "@material-tailwind/react";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/supabase";
 import Link from "next/link";
 
 export default function ArticleDisplay({ post, user }) {

@@ -1,6 +1,6 @@
 'use client'
 import { createContext, useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/supabase";
 import { useRouter } from "next/navigation";
 import { Alert } from "@material-tailwind/react";
 import {
@@ -57,7 +57,7 @@ export default function submitclaim() {
       }
       console.log(user)
       if(user && user.id !== "04ce407b-236f-45e3-abc1-3105a1cda7a2"){
-        return router.push("/home");
+        return router.push("/");
       }
     }
     grabUser();
