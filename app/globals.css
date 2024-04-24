@@ -27,9 +27,3 @@
  
 
 }
-.truncate-half {
-  width: 50%; /* Adjust as needed */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}

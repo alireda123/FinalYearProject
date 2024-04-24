@@ -2,7 +2,7 @@
 import ArticlePage from "@/components/Articles/ArticlePage";
 import Comments from "@/components/Articles/Comments";
 import { useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/supabase";
 import CommentBox from "@/components/Articles/Commentbox";
 import { useRouter } from "next/navigation";
 

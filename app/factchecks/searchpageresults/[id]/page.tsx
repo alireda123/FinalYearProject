@@ -1,6 +1,6 @@
 'use client'
 import AuthButton from "@/components/layoutcomponents/AuthButton";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/supabase";
 import Darkmodetoggle from "@/components/layoutcomponents/Darkmodetoggle";
 import Navbar from "@/components/layoutcomponents/Navbar";
 import ArticleDisplay from "@/components/Articles/ArticleDisplay";
@@ -16,10 +16,14 @@ export default function SearchResultsPage({ params }: { params: { searchQuery: s
     const image = "https://szitjksnkskfwbckrzfc.supabase.co/storage/v1/object/public/articleimages/";
     useEffect(() => {
         async function fetchArticle() {
-            const { data, error } = await supabase.from('articles').select().textSearch('title', `'${params.id}'`);
-            console.log(params.id)
+          //  const { data, error } = await supabase.from('articles').select().textSearch('title', `'${params.id}'`);
+          const { data, error } = await supabase
+          .rpc('search_for_articles', { prefix: params.id })
+          .select('*'); 
+
+       
             setArticle(data);
-            console.log(data);
+            
         }
         fetchArticle()
       },[])

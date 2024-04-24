@@ -9,7 +9,7 @@ import {
   IconButton,
   Textarea,
 } from "@material-tailwind/react";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/supabase";
 import Modal from "./Modal";
 export default function Comments({
   comments,
@@ -90,7 +90,7 @@ export default function Comments({
             return (
               <div
                 key={item.comment_id}
-                className="flex w-full py-4  mt-3 bg-white border-b-2 border-r-2 border-gray-200 sm:px-4 sm:py-4 md:px-4 sm:rounded-lg sm:shadow-sm md:w-2/3"
+                className="flex w-full py-4  mt-3 bg-white border-b-2 border-r-2 border-gray-200 sm:px-4 sm:py-4 md:px-4 sm:rounded-lg sm:shadow-sm"
               >
                 <div className="flex w-full justify-between ">
                   <div className="flex">

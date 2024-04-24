@@ -3,7 +3,7 @@
 //grabbed login logic from https://supabase.com/docs/guides/auth/auth-helpers/nextjs
 import { useRouter } from 'next/navigation'
 import { useState, useEffect, ChangeEvent } from 'react'
-import { createClient } from '@/utils/supabase/client'
+import { createClient } from '@/utils/supabase/supabase'
 
 export default function adduserdetails() {
   const [username, setUsername] = useState('');

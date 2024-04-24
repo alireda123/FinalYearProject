@@ -1,6 +1,7 @@
 'use client'
 import { Typography } from "@material-tailwind/react";
-
+import Link from "next/link";
+//grabbed footer from material tailwind
 export default function Footer ()  {
 
     return(
@@ -12,7 +13,7 @@ export default function Footer ()  {
           <li>
             <Typography
               as="a"
-              href="#"
+              href="/aboutus"
               color="blue-gray"
               className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
             >
@@ -22,17 +23,18 @@ export default function Footer ()  {
           <li>
             <Typography
               as="a"
-              href="#"
               color="blue-gray"
               className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
             >
-              FAQs
+              <Link   href="/aboutus#FAQs">FAQs</Link>
+              
             </Typography>
           </li>
           <li>
             <Typography
+            
               as="a"
-              href="#"
+              href="https://patreon.com/MisinformationPlatform?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=creatorshare_creator&utm_content=join_link"
               color="blue-gray"
               className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
             >
@@ -42,11 +44,11 @@ export default function Footer ()  {
           <li>
             <Typography
               as="a"
-              href="#"
+              href="/submitclaim"
               color="blue-gray"
               className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
             >
-              Contact Us
+              Submit A Claim
             </Typography>
           </li>
         </ul>

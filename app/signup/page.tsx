@@ -2,7 +2,7 @@
 //grabbed login UI from https://tailwindui.com/components/application-ui/forms/sign-in-forms
 import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
-import { createClient } from '@/utils/supabase/client'
+import { createClient } from '@/utils/supabase/supabase'
 import { Alert } from '@material-tailwind/react';
 function CrossIcon() {
   return (

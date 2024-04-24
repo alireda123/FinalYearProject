@@ -2,7 +2,7 @@
 import React, { useRef, useState, useEffect, ChangeEvent } from "react";
 import Test from "@/components/Test";
 import Image from "next/image";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/supabase";
 import { useRouter } from "next/navigation";
 import { Alert } from "@material-tailwind/react";
 
@@ -95,7 +95,7 @@ export default  function App() {
   const [sendData, setSendData] = useState({
     title: "",
     content: "",
-    type: "",
+    type: "domestic",
     author_name: "",
     author_id: "04ce407b-236f-45e3-abc1-3105a1cda7a2",
     claimedSummary: "",
@@ -105,7 +105,7 @@ export default  function App() {
   });
   // div relative w-64 until closing corresponding div was taken from https://v1.tailwindcss.com/components/forms
   return (
-    
+<form onSubmit={log}>    
     <div className="flex mt-24 flex-col max-w-[250px] md:!min-w-[720px]">
       <h1 className="text-2xl md:!text-4xl  font-extrabold">Submit Article:</h1>
       {errormessages.length > 0 && errormessages.map(item => {
@@ -118,6 +118,7 @@ export default  function App() {
                   })
            
 }
+
       <div className="flex flex-col mt-8 mb-9  ">
         <label className="text-xl font-bold">Title:</label>
         <input
@@ -165,7 +166,7 @@ export default  function App() {
           className=" rounded-lg px-1 mb-4 border-black border-2"
           rows={5}
           required
-          maxLength={100}
+          maxLength={250}
         />
 
         <label className="text-xl font-bold">Type:</label>
@@ -174,6 +175,8 @@ export default  function App() {
             onChange={(e) => {
               setSendData({ ...sendData, type: e.target.value });
             }}
+            required
+            defaultValue="domestic"
             className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
           >
             <option>domestic</option>
@@ -195,6 +198,7 @@ export default  function App() {
           type="file"
           accept="image/*"
           onChange={handleImageUpload}
+          required
         />
         <div>
         {image && (
@@ -202,10 +206,11 @@ export default  function App() {
         )}
         </div>
       </div>
-      
+    
       {/* <Test
         onInit={(evt, editor) => (editorRef.current = editor)}
         initialValue="<p></p>"
+        required
         init={{
           height: 500,
           menubar: true,
@@ -232,12 +237,15 @@ export default  function App() {
       />  */}
       <div className="mt-4">
         <button
-          className="p-1 text-lg bg-gradient-to-br from-blue-700 to-purple-500 rounded-md border-white border-2 text-white shadow-xl"
-          onClick={log}
+          type="submit"
+          className="submitbutton p-1  text-lg bg-gradient-to-br from-blue-700 to-purple-500 rounded-md border-white border-2 text-white shadow-xl"
+          
         >
           Submit Article
         </button>
       </div>
+
     </div>
+    </form>
   );
 }

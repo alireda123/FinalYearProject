@@ -1,6 +1,6 @@
 "use client";
 import ArticleDisplay from "@/components/Articles/ArticleDisplay";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/supabase";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
