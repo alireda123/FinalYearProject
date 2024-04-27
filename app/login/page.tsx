@@ -52,21 +52,21 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-col justify-center [&>*]:p-3">
+    <div className="flex flex-col justify-center  [&>*]:p-3">
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm text-center">
-          <h2 className="mt-10 text-center text-3xl font-bold leading-9 tracking-tight text-gray-900">
-            Sign in to your account
+        <div className="max-w-sm sm:mx-auto sm:!w-full  text-center">
+          <h2 className="mt-10 text-center text-3xl xl:!text-5xl font-bold leading-9 tracking-tight text-gray-900">
+            Sign in 
           </h2>
-          <p>Signing up will allow you to comment and submit claims.</p>
+          <p className="xl:text-2xl xl:mt-3">Signing up will allow you to comment and submit claims.</p>
         </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="mt-10 sm:!w-full ">
           <form className="space-y-6" action="#" method="POST">
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium leading-6 text-gray-900"
+                className="block text-sm xl:!text-xl font-medium leading-6 text-gray-900"
               >
                 Email address
               </label>
@@ -79,7 +79,7 @@ export default function Login() {
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 xl:!py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm xl:!text-xl sm:leading-6"
                 />
               </div>
             </div>
@@ -88,14 +88,14 @@ export default function Login() {
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-sm  xl:!text-xl font-medium leading-6 text-gray-900"
                 >
                   Password
                 </label>
                 <div className="text-sm">
                   <a
                     href="#"
-                    className="font-semibold text-indigo-600 hover:text-indigo-500"
+                    className="font-semibold text-indigo-600 hover:text-indigo-500 "
                   >
                     Forgot password?
                   </a>
@@ -110,7 +110,7 @@ export default function Login() {
                   required
                   onChange={(e) => setPassword(e.target.value)}
                   value={password}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 xl:!py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset px-0.5 focus:ring-indigo-600 text-sm xl:!text-xl sm:leading-6"
                 />
               </div>
             </div>
@@ -133,11 +133,11 @@ export default function Login() {
             </div>
           </form>
 
-          <p className="mt-10 text-center text-sm text-gray-500">
+          <p className="mt-10 text-center text-sm xl:!text-xl text-gray-500">
             Not a member?{" "}
             <a
               href="/signup"
-              className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+              className="font-semibold leading-6 text-indigo-600 xl:!text-xl hover:text-indigo-500"
             >
               Sign Up
             </a>
