@@ -57,10 +57,10 @@ export default function Navbar() {
   return (
     <nav className="w-full flex justify-center border-b lg:w-full  border-b-foreground/10 h-16">
       <div className="w-full navconfig:!max-w-[1400px]  flex justify-between items-center navconfig:flex-row    p-3 sm:mx-12  ">
-        <Link href="/" className="text-2xl font-extrabold">
-          Home
+        <Link href="/" className="text-shadow text-2xl font-extrabold">
+        <span className="gradient-text text-lg sm:!text-4xl text">IllumiFact</span>
         </Link>
-        <div className="w-full font-sans hidden navconfig:!flex justify-center items-center p-3 md:!text-lg [&>*]:mx-3">
+        <div className="w-full font-sans hidden navconfig:!flex justify-center items-center p-3 xl:!text-xl navconfig:!text-extrabold [&>*]:mx-3">
           <Link href="/factchecks">Fact Checks</Link>
           <Link href="/submitclaim">Submit a claim</Link>
           <Link href="/aboutus">Who We Are</Link>
@@ -70,7 +70,7 @@ export default function Navbar() {
         <div className=" navconfig:hidden">
         <div className="relative" data-twe-dropdown-ref="">
     <a
-      className="flex cursor-pointer items-center px-2 text-black/60 transition duration-200 hover:text-black/80 hover:ease-in-out focus:text-black/80 active:text-black/80 motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80"
+      className="flex cursor-pointer items-center px-2  text-black/60 transition duration-200 hover:text-black/80 hover:ease-in-out focus:text-black/80 active:text-black/80 motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80"
       
       type="button"
       id="dropdownMenuButton2"
@@ -183,9 +183,9 @@ export default function Navbar() {
     name="search"
     placeholder="Search"
     onChange={(e) => {setSearchQuery(e.target.value)}}
-    className="bg-white max-w-24 tablet:min-w-56 md:min-w-72 h-10  md:px-5 md:pr-10 rounded-full text-sm focus:outline"
+    className="bg-white max-w-24 tablet:min-w-56 md:min-w-72 px-1 h-10  md:px-5 md:mr-4 md:pr-10 rounded-full text-sm focus:outline"
   />
-  <button onClick={(e) => {searchForItem(e.target.value)}} className="absolute right-0 top-0 mt-3 mr-4">
+  <button onClick={(e) => {searchForItem(e.target.value)}} className="absolute right-0 md:right-1 top-0 mt-3 mr-4">
     <svg
       className="h-4 w-4 fill-current"
       xmlns="http://www.w3.org/2000/svg"
