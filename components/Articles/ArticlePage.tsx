@@ -43,7 +43,7 @@ export default function ArticlePage({article}) {
             {article[0].claimedSummary}
           </p>
         </div>
-        <div className="h-0.5 md:h-56 w-4 bg-black min-h-max"></div>
+        <div className="h-0.5 w-full md:h-56 md:w-4 bg-black min-h-max"></div>
         <div className="p-2 md:min-w-56 md:ml-4">
           <p className="font-extrabold text-xl">Summary of our analysis</p>
           <p className="leading-7 font-semibold">
