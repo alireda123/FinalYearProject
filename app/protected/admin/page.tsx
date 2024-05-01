@@ -1,10 +1,17 @@
 'use client';
 import React, { useRef, useState, useEffect, ChangeEvent } from "react";
-import Test from "@/components/Test";
 import Image from "next/image";
 import { createClient } from "@/utils/supabase/supabase";
 import { useRouter } from "next/navigation";
 import { Alert } from "@material-tailwind/react";
+import dynamic from "next/dynamic";
+import SunEditorCore from "suneditor/src/lib/core";
+import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
+
+const SunEditor = dynamic(() => import("suneditor-react"), {
+  ssr: false,
+});
+
 
 function CrossIcon() {
   return (
@@ -33,9 +40,17 @@ export default  function App() {
   const [imageObject, setImageObject] = useState();
   const [errordetected, setErrorDetected] = useState(false);  
   const [errormessages, setErrorMessages] = useState<string[]>([])
-  const log = async () => {
+  const [isClientSide, setIsClientSide] = useState(false);
+
+
+  const getSunEditorInstance = (sunEditor: SunEditorCore) => {
+    editorRef.current = sunEditor;
+};
+  const log = async (e) => {
+    e.preventDefault();
+    console.log(editorRef.current)
     if (editorRef.current !== null) {
-      const final = { ...sendData, content: editorRef.current.getContent() };
+      const final = { ...sendData, content: editorRef.current.core.getContents() };
       const { error } = await supabase
         .from('articles')
         .insert(final)
@@ -49,11 +64,12 @@ export default  function App() {
         return;
     } else{
       uploadImageToSupabaseBucket();
-      router.push('/')      
+   //   router.push('/')      
     }
     }
   };
   useEffect(() => {
+    setIsClientSide(true);
     async function checkIfUser(){
       const {
         data,
@@ -104,11 +120,12 @@ export default  function App() {
     summary: ""
   });
   // div relative w-64 until closing corresponding div was taken from https://v1.tailwindcss.com/components/forms
+
   return (
 <form onSubmit={log}>    
     <div className="flex mt-24 flex-col max-w-[250px] md:!min-w-[720px]">
       <h1 className="text-2xl md:!text-4xl  font-extrabold">Submit Article:</h1>
-      {errormessages.length > 0 && errormessages.map(item => {
+      {/* {errormessages.length > 0 && errormessages.map(item => {
             <Alert
             icon={<CrossIcon />}
             className="rounded-none border-l-4 border-[rgba(201,80,46,0.94)] bg-[hsla(0,63%,48%,1)] font-medium text-white"
@@ -117,7 +134,7 @@ export default  function App() {
             </Alert>
                   })
            
-}
+} */}
 
       <div className="flex flex-col mt-8 mb-9  ">
         <label className="text-xl font-bold">Title:</label>
@@ -206,39 +223,40 @@ export default  function App() {
         )}
         </div>
       </div>
-    
-      {/* <Test
-        onInit={(evt, editor) => (editorRef.current = editor)}
-        initialValue="<p></p>"
-        required
-        init={{
-          height: 500,
-          menubar: true,
-          plugins: [
-            "advlist",
-            "anchor",
-            "autolink",
-            "help",
-            "image",
-            "link",
-            "lists",
-            "searchreplace",
-            "table",
-            "wordcount",
-          ],
-          toolbar:
-            "undo redo | blocks | " +
-            "bold italic forecolor | alignleft aligncenter " +
-            "alignright alignjustify | bullist numlist outdent indent | " +
-            "removeformat | help",
-          content_style:
-            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-        }} 
-      />  */}
+    {isClientSide && 
+      // <Test
+      //   onInit={(evt, editor) => (editorRef.current = editor)}
+      //   initialValue="<p></p>"
+      //   required
+      //   init={{
+      //     height: 500,
+      //     menubar: true,
+      //     plugins: [
+      //       "advlist",
+      //       "anchor",
+      //       "autolink",
+      //       "help",
+      //       "image",
+      //       "link",
+      //       "lists",
+      //       "searchreplace",
+      //       "table",
+      //       "wordcount",
+      //     ],
+      //     toolbar:
+      //       "undo redo | blocks | " +
+      //       "bold italic forecolor | alignleft aligncenter " +
+      //       "alignright alignjustify | bullist numlist outdent indent | " +
+      //       "removeformat | help",
+      //     content_style:
+      //       "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+      //   }} 
+      <SunEditor getSunEditorInstance={getSunEditorInstance} height="700px" setDefaultStyle="font-family: sans-serif; font-size: 18px;" />
+    }
       <div className="mt-4">
         <button
           type="submit"
-          className="submitbutton p-1  text-lg bg-gradient-to-br from-blue-700 to-purple-500 rounded-md border-white border-2 text-white shadow-xl"
+          className="submitbutton p-1  text-lg !bg-gradient-to-br !from-blue-700 !to-purple-500 rounded-md border-white border-2 text-white shadow-xl"
           
         >
           Submit Article
