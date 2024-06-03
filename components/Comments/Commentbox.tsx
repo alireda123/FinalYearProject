@@ -1,9 +1,14 @@
+"use client";
 import { Textarea, Button, IconButton } from "@material-tailwind/react";
-export default function CommentBox({
-  submitComment,
-  commentbox,
-  setCommentbox,
-}) {
+import { Dispatch, MouseEventHandler, SetStateAction, useState } from "react";
+import { commentboxProps } from "@/Types/allTypes";
+import { createClient } from "@/utils/supabase/supabase";
+import { useRouter } from "next/router";
+export default function CommentBox({ user, params, submitComment }) {
+  const [comments, setComments] = useState(null);
+  const [commentbox, setCommentbox] = useState("");
+  const supabase = createClient();
+
   return (
     <div>
       <form>
@@ -19,7 +24,12 @@ export default function CommentBox({
             rows={8}
           />
           <div className="flex w-full justify-between py-1.5">
-            <IconButton variant="text" color="blue-gray" size="sm">
+            <IconButton
+              placeholder=""
+              variant="text"
+              color="blue-gray"
+              size="sm"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -37,6 +47,7 @@ export default function CommentBox({
             </IconButton>
             <div className="flex gap-2">
               <Button
+                placeholder=""
                 onClick={(e) => {
                   e.preventDefault();
                   setCommentbox("");
@@ -49,8 +60,7 @@ export default function CommentBox({
                 Cancel
               </Button>
               <button
-                onClick={submitComment}
-                
+                onClick={(e) => {submitComment(e, commentbox)}}
                 className="rounded-md bg-gradient-to-br from-blue-700 to-purple-500 p-1 text-white"
               >
                 Post Comment
