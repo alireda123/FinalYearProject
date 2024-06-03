@@ -1,129 +1,108 @@
-'use client'
-//grabbed login UI from https://tailwindui.com/components/application-ui/forms/sign-in-forms
-import { useRouter } from 'next/navigation'
-import { useState, useEffect } from 'react'
-import { createClient } from '@/utils/supabase/supabase'
-import { Alert } from '@material-tailwind/react';
-function CrossIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className="h-6 w-6"
-    >
-      <path
-        fillRule="evenodd"
-        d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-}
+import { createClient } from "@/utils/supabase/server";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { z } from "zod";
 
-export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
-  const [errormessage, setErrorMessage] = useState('')
-  const router = useRouter();
+async function signup(formData: FormData) {
+  "use server";
+
   const supabase = createClient();
-
-  const handleSignUp = async (e) => {
-    e.preventDefault();
-    const {error} = await supabase.auth.signUp({
-      email,
-      password,
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+  // const { error } = await supabase.auth.signUp({
+  //   email,
+  //   password,
+  // });
+  fetch("http://127.0.0.1:54321/functions/v1/signUp", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Success:", data);
     })
-    console.log(error)
-    if(error){
-      setErrorMessage(error.message)
-      return;
-    } else{
-      router.push("/signup/adduserdetails");
-    }
-  
-  }
-
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+  // redirect('/signup/adduserdetails')
+}
+// USE ZOD FOR SERVER SIDE VALIDATION
+export default function Signup() {
   return (
-    <div className='flex flex-col justify-center [&>*]:p-3'>
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm text-center">
-          
-          <h2 className="mt-10 text-center text-3xl xl:!text-5xl font-bold leading-9 tracking-tight text-gray-900">
-            Sign Up
-          </h2>
-          <p className="xl:text-2xl xl:mt-3">Signing up will allow you to comment and submit claims.</p>
-        </div>
+    <div className="flex flex-col items-center justify-center [&>*]:p-3 min-h-screen">
+      <div className="bg-white rounded-lg shadow-md p-8 sm:max-w-sm w-full">
+        <h2 className="text-3xl xl:!text-5xl font-bold text-gray-900 text-center mb-2">
+          Sign Up
+        </h2>
+        <p className="xl:text-2xl xl:mt-3 text-gray-600 text-center mb-6">
+          Signing up will allow you to comment and submit claims.
+        </p>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
-            <div>
-              <label htmlFor="email" className="block text-sm xl:!text-xl font-medium leading-6 text-gray-900">
-                Email address
-              </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  onChange={(e) => setEmail(e.target.value)} 
-                  value={email}
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 xl:!py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm xl:!text-xl sm:leading-6"
-                />
-              </div>
-            </div>
-            {errormessage &&
-            <Alert
+        <form action={signup} className="space-y-6">
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm xl:!text-xl font-medium text-gray-700"
+            >
+              Email address
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              autoComplete="email"
+              required
+              className="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring focus:ring-indigo-500 text-sm xl:!text-xl"
+            />
+          </div>
+
+          {/* {errormessage && (
+            <Alert 
               icon={<CrossIcon />}
               className="rounded-none border-l-4 border-[rgba(201,80,46,0.94)] bg-[hsla(0,63%,48%,1)] font-medium text-white"
             >
               {errormessage}
             </Alert>
-}        <div>
-              <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm xl:!text-xl font-medium leading-6 text-gray-900">
-                  Password
-                </label>
-               
-              </div>
-              <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  onChange={(e) => setPassword(e.target.value)}
-                  value={password}
-                  className="block w-full rounded-md border-0 py-1.5 xl:!py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset px-0.5 focus:ring-indigo-600 text-sm xl:!text-xl sm:leading-6"
-                />
-              </div>
-            </div>
+          )} */}
 
-            <div>
-              <button
-                onClick={handleSignUp}
-                className="flex w-full text-white text-lg max-  justify-center rounded-md bg-gradient-to-br from-blue-700 to-purple-500 px-3 py-1.5  font-semibold leading-6  shadow-sm"
-              >
-                Sign Up
-              </button>
-            </div>
-          </form>
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm xl:!text-xl font-medium text-gray-700"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              autoComplete="current-password"
+              required
+              className="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring focus:ring-indigo-500 text-sm xl:!text-xl"
+            />
+          </div>
 
-          <p className="mt-10 text-center text-sm xl:!text-xl text-gray-500">
-            Already a member?{' '}
-            <a href="/login" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-              Sign In
-            </a>
-          </p>
-        </div>
+          <button
+            type="submit"
+            className="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white text-lg py-2 rounded-md hover:opacity-90 focus:outline-none"
+          >
+            Sign Up
+          </button>
+        </form>
+
+        <p className="mt-10 text-center text-sm xl:!text-xl text-gray-500">
+          Already a member?{" "}
+          <a
+            href="/login"
+            className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+          >
+            Sign In
+          </a>
+        </p>
       </div>
-    
     </div>
-
-    
-  )
+  );
 }

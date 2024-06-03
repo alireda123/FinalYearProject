@@ -3,17 +3,14 @@ import { Button, Dialog,
     DialogBody,
     Textarea,
     DialogFooter } from "@material-tailwind/react";
-import { useState } from "react";
-
-
-export default function Modal({edit, setEdit, item, openModals, updateComment, open, handleClose}){
-    
-
+import { modalProps } from "@/Types/allTypes";
+export default function Modal({edit, setEdit, item, openModals, updateComment, open, handleClose}: modalProps){
     return(
         <Dialog
+        placeholder=''
         size="md"
         className="max-w-2xl"
-        key={item.id}
+        key={item.comment_id}
         animate={{
           mount: { scale: 1, y: 0 },
           unmount: { scale: 0.9, y: -100 },
@@ -21,8 +18,8 @@ export default function Modal({edit, setEdit, item, openModals, updateComment, o
         open={openModals[item.comment_id] || false}
         handler={handleClose} 
       >
-        <DialogHeader>Edit your comment</DialogHeader>
-        <DialogBody>
+        <DialogHeader   placeholder=''>Edit your comment</DialogHeader>
+        <DialogBody   placeholder=''>
           <div className="">
             <Textarea
               className="border-gray-300 border-2 p-2 rounded-md"
@@ -35,8 +32,9 @@ export default function Modal({edit, setEdit, item, openModals, updateComment, o
             />
           </div>
         </DialogBody>
-        <DialogFooter>
+        <DialogFooter   placeholder=''>
           <Button
+            placeholder=''
             variant="text"
             color="red"
             onClick={() => {
@@ -48,6 +46,7 @@ export default function Modal({edit, setEdit, item, openModals, updateComment, o
             <span>Cancel</span>
           </Button>
           <Button
+            placeholder=''
             onClick={(e) => {
               e.preventDefault();
               updateComment(item.comment_id);

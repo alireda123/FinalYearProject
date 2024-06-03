@@ -1,68 +1,73 @@
-"use client";
-//grabbed login UI from https://tailwindui.com/components/application-ui/forms/sign-in-forms
-//grabbed login logic from https://supabase.com/docs/guides/auth/auth-helpers/nextjs
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
-import { createClient } from "@/utils/supabase/supabase";
-import { Alert } from "@material-tailwind/react";
-import { error } from "console";
+import { createClient } from "@/utils/supabase/server";
+import { revalidatePath } from "next/cache";
+import { RedirectType, redirect } from "next/navigation";
+import { NextResponse } from "next/server";
 
-function CrossIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className="h-6 w-6"
-    >
-      <path
-        fillRule="evenodd"
-        d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-}
-//adapted crossicon function from material tailwind 
-export default function Login() {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [errormessage, setErrormessage] = useState<string>("");
-  const router = useRouter();
+async function login(formData: FormData) {
+  "use server";
   const supabase = createClient();
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+ // console.log(data, error)
+  if (error) {
+    console.log(error)
+    return;
+  }
 
-  const handleSignIn = async (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) {
-      setErrormessage(error.message)
-      return;
-    }
-    window.location.assign("/"); 
-    
-  };
+  
+  revalidatePath('/', 'layout');
+  redirect('/')
 
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    router.refresh();
-  };
+}
+// async function login(formData: FormData) {
+//   "use server"
+//   const supabase = createClient();
+//   const email = formData.get("email") as string;
+//   const password = formData.get("password") as string;
 
+//   try {
+//       const { data, error } = await supabase.auth.signInWithPassword({
+//           email,
+//           password,
+//       });
+
+//       if (error) {
+//           // return new NextResponse(JSON.stringify({ message: error.message }), {
+//           //     status: 400,
+//           // });
+//           console.log(error)
+//       }
+
+//       revalidatePath("/", "layout");
+
+//       redirect("/"); // Redirect after successful login and revalidation
+//   } catch (error) {
+//       console.log("Unexpected error during login:", error);
+//       // return new NextResponse(JSON.stringify({ message: "An unexpected error occurred" }), {
+//       //     status: 500,
+//       // });
+//   }
+// }
+
+export default function Login() {
   return (
     <div className="flex flex-col justify-center  [&>*]:p-3">
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="max-w-sm sm:mx-auto sm:!w-full  text-center">
           <h2 className="mt-10 text-center text-3xl xl:!text-5xl font-bold leading-9 tracking-tight text-gray-900">
-            Sign in 
+            Sign in
           </h2>
-          <p className="xl:text-2xl xl:mt-3">Signing up will allow you to comment and submit claims.</p>
+          <p className="xl:text-2xl xl:mt-3">
+            Signing up will allow you to comment and submit claims.
+          </p>
         </div>
 
         <div className="mt-10 sm:!w-full ">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" action={login}>
             <div>
               <label
                 htmlFor="email"
@@ -76,10 +81,8 @@ export default function Login() {
                   name="email"
                   type="email"
                   autoComplete="email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
                   required
-                  className="block w-full rounded-md border-0 py-1.5 xl:!py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm xl:!text-xl sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 xl:!py-2 bg-white text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm xl:!text-xl sm:leading-6"
                 />
               </div>
             </div>
@@ -92,14 +95,7 @@ export default function Login() {
                 >
                   Password
                 </label>
-                <div className="text-sm">
-                  <a
-                    href="#"
-                    className="font-semibold text-indigo-600 hover:text-indigo-500 "
-                  >
-                    Forgot password?
-                  </a>
-                </div>
+                <div className="text-sm"></div>
               </div>
               <div className="mt-2">
                 <input
@@ -108,36 +104,46 @@ export default function Login() {
                   type="password"
                   autoComplete="current-password"
                   required
-                  onChange={(e) => setPassword(e.target.value)}
-                  value={password}
-                  className="block w-full rounded-md border-0 py-1.5 xl:!py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset px-0.5 focus:ring-indigo-600 text-sm xl:!text-xl sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 xl:!py-2 text-black bg-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset px-0.5 focus:ring-indigo-600 text-sm xl:!text-xl sm:leading-6"
                 />
               </div>
             </div>
-            {errormessage &&
-            <Alert
-              icon={<CrossIcon />}
-              className="rounded-none border-l-4 border-[rgba(201,80,46,0.94)] bg-[hsla(0,63%,48%,1)] font-medium text-white"
-            >
-              {errormessage}
-            </Alert>
-}
 
             <div>
-              <button
-                onClick={handleSignIn}
-                className="flex w-full text-white text-lg justify-center rounded-md bg-gradient-to-br from-blue-700 to-purple-500 px-3 py-1.5  font-semibold leading-6  shadow-sm"
-              >
+              <button type='submit' className="flex w-full text-white text-lg justify-center rounded-md bg-gradient-to-br from-blue-700 to-purple-500 px-3 py-1.5  font-semibold leading-6  shadow-sm">
                 Sign in
               </button>
             </div>
+           
+
           </form>
+          <div
+  id="g_id_onload"
+  data-client_id="<client ID>"
+  data-context="signin"
+  data-ux_mode="popup"
+  data-callback="handleSignInWithGoogle"
+  data-nonce=""
+  data-auto_select="true"
+  data-itp_support="true"
+  data-use_fedcm_for_prompt="true"
+></div>
+
+<div
+  className="g_id_signin"
+  data-type="standard"
+  data-shape="pill"
+  data-theme="outline"
+  data-text="signin_with"
+  data-size="large"
+  data-logo_alignment="left"
+></div>
 
           <p className="mt-10 text-center text-sm xl:!text-xl text-gray-500">
             Not a member?{" "}
             <a
               href="/signup"
-              className="font-semibold leading-6 text-indigo-600 xl:!text-xl hover:text-indigo-500"
+              className="font-semibold leading-6 text-indigo-600 xl:!text-xl  hover:text-indigo-500"
             >
               Sign Up
             </a>
@@ -145,5 +151,8 @@ export default function Login() {
         </div>
       </div>
     </div>
+    
   );
+  
 }
+
