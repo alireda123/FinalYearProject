@@ -3,17 +3,12 @@ import "./globals.css";
 import Navbar from "@/components/layoutcomponents/Navbar/Navbar";
 import Footer from "@/components/layoutcomponents/Footer";
 import "tw-elements-react/dist/css/tw-elements-react.min.css";
-import { createClient } from "@/utils/supabase/server";
-import { SWRConfig } from 'swr';
-import { supabaseFetcher } from "@/utils/usefulFunctions/swrfetcher";
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata = {
-  metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  metadataBase: new URL("https://www.illumifact.org/"),
+  title: "IllumiFact",
+  description: "Fact-checking platform that corrects political misinformation and promotes critical thinking.",
 };
 
 export default function RootLayout({
@@ -22,8 +17,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
 
-  const supabase = createClient()
-  const returnSession = async () => await supabase.auth.getSession(); 
   <script src="https://accounts.google.com/gsi/client" async></script>
 
   return (
