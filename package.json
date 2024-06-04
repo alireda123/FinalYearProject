@@ -21,6 +21,7 @@
     "@supabase/supabase-js": "^2.39.8",
     "@tinymce/tinymce-react": "^4.3.2",
     "@types/tinymce": "^4.6.9",
+    "@vercel/speed-insights": "^1.0.11",
     "autoprefixer": "10.4.17",
     "dotenv": "^16.4.5",
     "draft-js": "^0.11.7",
